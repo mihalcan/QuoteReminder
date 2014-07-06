@@ -130,6 +130,10 @@
     <Compile Include="Migrations\201407021900132_InitialCreate.Designer.cs">
       <DependentUpon>201407021900132_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201407060808192_CreateMaxLength.cs" />
+    <Compile Include="Migrations\201407060808192_CreateMaxLength.Designer.cs">
+      <DependentUpon>201407060808192_CreateMaxLength.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Quote.cs" />
     <Compile Include="Models\QuoteReminderContext.cs" />
@@ -483,6 +487,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201407021900132_InitialCreate.resx">
       <DependentUpon>201407021900132_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201407060808192_CreateMaxLength.resx">
+      <DependentUpon>201407060808192_CreateMaxLength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
