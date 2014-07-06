@@ -18,11 +18,5 @@ namespace QuoteReminder.Models
         }
 
         public DbSet<Quote> Quotes { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer(
-                new MigrateDatabaseToLatestVersion<QuoteReminderContext, Migrations.Configuration>());
-        }
     }
 }
