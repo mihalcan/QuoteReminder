@@ -25,7 +25,9 @@ namespace QuoteReminder.Controllers
             IQueryable<Quote> items = string.IsNullOrEmpty(sort) ? list.OrderBy(o => o.Created)
                 : list.OrderBy(String.Format("it.{0} {1}", sort, desc ? "DESC" : "ASC"));
 
-            if (!string.IsNullOrEmpty(q) && q != "undefined") items = items.Where(t => t.Text.Contains(q));
+            items = items.Where(x => x.NextRemind.Date <= DateTime.Now.Date);
+
+            //if (!string.IsNullOrEmpty(q) && q != "undefined") items = items.Where(t => t.Text.Contains(q));
 
             if (offset > 0) items = items.Skip(offset);
             if (limit.HasValue) items = items.Take(limit.Value);
