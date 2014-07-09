@@ -20,6 +20,20 @@
         </div>
     </div>
 
+    <div class="control-group" ng-class="{error: form.LastRemind.$invalid}" ng-show="item.QuoteId == 0">
+        <label class="control-label" for="LastRemind">LastRemind</label>
+        <div class="controls">
+            <input type="text" ng-model="item.LastRemind" id="LastRemind" />
+        </div>
+    </div>
+
+    <div class="control-group" ng-class="{error: form.NextRemind.$invalid}">
+        <label class="control-label" for="NextRemind">NextRemind</label>
+        <div class="controls">
+            <input type="text" ng-model="item.NextRemind" id="NextRemind" />
+        </div>
+    </div>
+
     <div class="form-actions">
         <button class="btn btn-primary" ng-click="save()">
             Submit

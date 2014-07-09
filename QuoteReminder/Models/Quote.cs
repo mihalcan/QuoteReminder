@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuoteReminder.Models
 {
@@ -21,5 +22,8 @@ namespace QuoteReminder.Models
         public DateTime LastRemind { get; set; }
 
         public DateTime NextRemind { get; set; }
+        
+        [NotMapped]
+        public bool Repeated { get; set; }
     }
 }

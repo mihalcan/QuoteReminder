@@ -27,7 +27,7 @@ var ListCtrl = function ($scope, $location, Quote) {
 };
 
 var CreateCtrl = function ($scope, $location, Quote) {
-    $scope.save = function () {
+        $scope.save = function () {
         Quote.save($scope.item, function () {
             $location.path('/');
         });

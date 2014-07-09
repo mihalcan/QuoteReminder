@@ -25,10 +25,8 @@ namespace QuoteReminder.Controllers
             IQueryable<Quote> items = string.IsNullOrEmpty(sort) ? list.OrderBy(o => o.Created)
                 : list.OrderBy(String.Format("it.{0} {1}", sort, desc ? "DESC" : "ASC"));
 
-            items = items.Where(x => x.NextRemind.Date <= DateTime.Now.Date);
-
-            //if (!string.IsNullOrEmpty(q) && q != "undefined") items = items.Where(t => t.Text.Contains(q));
-
+            items = items.Where(x => x.NextRemind <= DateTime.Now);
+            
             if (offset > 0) items = items.Skip(offset);
             if (limit.HasValue) items = items.Take(limit.Value);
             return items;
@@ -51,6 +49,10 @@ namespace QuoteReminder.Controllers
         {
             if (ModelState.IsValid && id == quote.QuoteId)
             {
+                if (quote.Repeated)
+                {
+                    quote = this.UpdateRemindDate(quote.QuoteId);
+                }
                 db.Entry(quote).State = EntityState.Modified;
 
                 try
@@ -68,6 +70,17 @@ namespace QuoteReminder.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
+        }
+
+        private Quote UpdateRemindDate(int quoteId)
+        {
+            var quote = this.GetQuote(quoteId);
+            var daysBetweenReminders = (quote.NextRemind - quote.LastRemind).Days;
+
+            quote.LastRemind = quote.NextRemind;
+            quote.NextRemind = quote.NextRemind.AddDays(daysBetweenReminders * 2);
+
+            return quote;
         }
 
         // POST api/Quote
