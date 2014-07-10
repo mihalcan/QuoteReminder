@@ -22,12 +22,19 @@ var ListCtrl = function ($scope, $location, Quote) {
         var itemId = this.item.QuoteId;
         Quote.delete({ id: itemId }, function () {
             $("#item_" + itemId).fadeOut();
-    });
-};
+        })
+    };
+
+    $scope.knowIt = function(){
+        this.item.Repeated = true;
+        Quote.update({ id: this.item.QuoteId }, this.item, function () {
+            $scope.reset();
+        });
+    };
 };
 
 var CreateCtrl = function ($scope, $location, Quote) {
-        $scope.save = function () {
+    $scope.save = function () {
         Quote.save($scope.item, function () {
             $location.path('/');
         });
