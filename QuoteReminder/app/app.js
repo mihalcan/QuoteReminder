@@ -27,8 +27,9 @@ var ListCtrl = function ($scope, $location, Quote) {
 
     $scope.knowIt = function(){
         this.item.Repeated = true;
+        var itemId = this.item.QuoteId;
         Quote.update({ id: this.item.QuoteId }, this.item, function () {
-            $scope.reset();
+            $("#item_" + itemId).fadeOut();
         });
     };
 };
