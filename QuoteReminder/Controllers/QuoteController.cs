@@ -88,6 +88,10 @@ namespace QuoteReminder.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (quote.Created.Year < 2000)
+                {
+                    quote.Created = DateTime.Now;
+                }
                 quote.LastRemind = quote.Created;
                 quote.NextRemind = quote.Created.AddDays(1);
 
