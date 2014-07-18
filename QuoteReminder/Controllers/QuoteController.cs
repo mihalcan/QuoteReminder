@@ -24,8 +24,10 @@ namespace QuoteReminder.Controllers
 
             IQueryable<Quote> items = string.IsNullOrEmpty(sort) ? list.OrderBy(o => o.Created)
                 : list.OrderBy(String.Format("it.{0} {1}", sort, desc ? "DESC" : "ASC"));
-
-            items = items.Where(x => x.NextRemind <= DateTime.Now);
+            if (q == null || q != "All")
+            {
+                items = items.Where(x => x.NextRemind <= DateTime.Now);
+            }
             
             if (offset > 0) items = items.Skip(offset);
             if (limit.HasValue) items = items.Take(limit.Value);

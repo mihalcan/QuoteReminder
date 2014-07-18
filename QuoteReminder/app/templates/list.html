@@ -41,10 +41,10 @@
                 {{item.Created|date:'dd/MM/yyyy'}}
             </td>
             <td>
-                {{item.LastRemind}}
+                {{item.LastRemind|date:'dd/MM/yyyy'}}
             </td>
             <td>
-                {{item.NextRemind}}
+                {{item.NextRemind|date:'dd/MM/yyyy'}}
             </td>
             <td>
                 <button ng-click="knowIt()" class="btn">Know it!</button>
