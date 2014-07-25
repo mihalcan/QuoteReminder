@@ -32,6 +32,10 @@ var ListCtrl = function ($scope, $location, Quote) {
             $("#item_" + itemId).fadeOut();
         });
     };
+
+    $scope.repeat = function(){
+        $("#item_" + this.item.QuoteId).fadeOut();
+    };
 };
 
 var CreateCtrl = function ($scope, $location, Quote) {

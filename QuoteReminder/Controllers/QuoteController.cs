@@ -26,7 +26,8 @@ namespace QuoteReminder.Controllers
                 : list.OrderBy(String.Format("it.{0} {1}", sort, desc ? "DESC" : "ASC"));
             if (q == null || q != "All")
             {
-                items = items.Where(x => x.NextRemind <= DateTime.Now);
+                var dateToCompare = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
+                items = items.Where(x => x.NextRemind <= dateToCompare);
             }
             
             if (offset > 0) items = items.Skip(offset);
