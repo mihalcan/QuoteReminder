@@ -20,9 +20,11 @@ var ListCtrl = function ($scope, $location, Quote) {
 
     $scope.delete = function () {
         var itemId = this.item.QuoteId;
-        Quote.delete({ id: itemId }, function () {
-            $("#item_" + itemId).fadeOut();
-        })
+        if (confirm("Are you sure want to delete this item?")){
+            Quote.delete({ id: itemId }, function () {
+                $("#item_" + itemId).fadeOut();
+            })
+        };
     };
 
     $scope.knowIt = function(){
@@ -34,7 +36,11 @@ var ListCtrl = function ($scope, $location, Quote) {
     };
 
     $scope.repeat = function(){
-        $("#item_" + this.item.QuoteId).fadeOut();
+        this.item.Repeated = false;
+        var itemId = this.item.QuoteId;
+        Quote.update({ id: this.item.QuoteId }, this.item, function () {
+            $("#item_" + itemId).fadeOut();
+        });
     };
 };
 
