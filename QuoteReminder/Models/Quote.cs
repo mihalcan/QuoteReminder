@@ -24,6 +24,6 @@ namespace QuoteReminder.Models
         public DateTime NextRemind { get; set; }
         
         [NotMapped]
-        public bool Repeated { get; set; }
+        public EditType EditType { get; set; }
     }
 }

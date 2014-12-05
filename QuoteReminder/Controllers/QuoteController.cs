@@ -52,10 +52,7 @@ namespace QuoteReminder.Controllers
         {
             if (ModelState.IsValid && id == quote.QuoteId)
             {
-                if (quote.Repeated)
-                {
-                    quote = this.UpdateRemindDate(quote.QuoteId);
-                }
+                quote = this.UpdateDates(id, quote);                
                 db.Entry(quote).State = EntityState.Modified;
 
                 try
@@ -73,17 +70,6 @@ namespace QuoteReminder.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
-        }
-
-        private Quote UpdateRemindDate(int quoteId)
-        {
-            var quote = this.GetQuote(quoteId);
-            var daysBetweenReminders = (quote.NextRemind - quote.LastRemind).Days;
-
-            quote.LastRemind = quote.NextRemind;
-            quote.NextRemind = quote.NextRemind.AddDays(daysBetweenReminders * 2);
-
-            return quote;
         }
 
         // POST api/Quote
@@ -138,6 +124,39 @@ namespace QuoteReminder.Controllers
         {
             db.Dispose();
             base.Dispose(disposing);
+        }
+
+        private Quote UpdateDates(int id, Quote quote)
+        {
+            switch (quote.EditType)
+            {
+                case EditType.KnowIt:
+                    return this.UpdateRemindDateWhenKnow(quote.QuoteId);
+                case EditType.Forget:
+                    return this.UpdateRemindDateWhenForget(quote.QuoteId);
+                default:
+                    return quote;
+            }
+        }
+
+        private Quote UpdateRemindDateWhenKnow(int quoteId)
+        {
+            var quote = this.GetQuote(quoteId);
+            var daysBetweenReminders = (quote.NextRemind - quote.LastRemind).Days;
+
+            quote.LastRemind = quote.NextRemind;
+            quote.NextRemind = quote.NextRemind.AddDays(daysBetweenReminders * 2);
+
+            return quote;
+        }
+
+        private Quote UpdateRemindDateWhenForget(int quoteId)
+        {
+            var quote = this.GetQuote(quoteId);
+            quote.LastRemind = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
+            quote.NextRemind = quote.LastRemind.AddDays(1);
+
+            return quote;
         }
     }
 }

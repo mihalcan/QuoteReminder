@@ -28,15 +28,15 @@ var ListCtrl = function ($scope, $location, Quote) {
     };
 
     $scope.knowIt = function(){
-        this.item.Repeated = true;
+        this.item.EditType = "KnowIt";
         var itemId = this.item.QuoteId;
         Quote.update({ id: this.item.QuoteId }, this.item, function () {
             $("#item_" + itemId).fadeOut();
         });
     };
 
-    $scope.repeat = function(){
-        this.item.Repeated = false;
+    $scope.forget = function(){
+        this.item.EditType= "Forget";
         var itemId = this.item.QuoteId;
         Quote.update({ id: this.item.QuoteId }, this.item, function () {
             $("#item_" + itemId).fadeOut();

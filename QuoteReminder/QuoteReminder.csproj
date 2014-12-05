@@ -135,6 +135,7 @@
       <DependentUpon>201407060808192_CreateMaxLength.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\EditType.cs" />
     <Compile Include="Models\Quote.cs" />
     <Compile Include="Models\QuoteReminderContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
