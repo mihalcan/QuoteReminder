@@ -1,12 +1,6 @@
 ﻿<form class="form-search">
-<div class="input-append">
-    <input type="text" ng-model="query" class="input-medium search-query" placeholder="Search">
-    <button ng-click="reset()" type="submit" class="btn">
-        <i class="glyphicon glyphicon-search"></i>
-    </button>
-</div>
-<button ng-click="query=''; reset()" ng-disabled="!query" type="submit" class="btn">
-    Reset</button>
+<button ng-click="query='All'; reset()" type="submit" class="btn">All items</button>
+<button ng-click="query=''; reset()" type="submit" class="btn">Items for today</button>
 </form>
 <table class="table table-striped table-condensed table-hover">
     <thead>
@@ -48,7 +42,7 @@
             </td>
             <td>
                 <button ng-click="knowIt()" class="btn">Know it!</button>
-                <button ng-click="forget()" class="btn">Forget</button>
+                <button ng-click="forget()" class="btn">Forgot</button>
                 <a href="#/edit/{{item.QuoteId}}"><i class="glyphicon glyphicon-edit"></i></a>
                 <a ng-click="delete()"><i class="glyphicon glyphicon-remove"></i></a>
             </td>
