@@ -25,7 +25,8 @@ namespace QuoteReminder.DependencyInjection
 
         public object GetService(Type t)
         {
-            return _container.Kernel.HasComponent(t) ? _container.Resolve(t) : null;
+            var service = _container.Kernel.HasComponent(t) ? _container.Resolve(t) : null;
+            return service;
         }
 
         public IEnumerable<object> GetServices(Type t)

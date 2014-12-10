@@ -131,6 +131,7 @@
     <Compile Include="Controllers\QuoteController.cs" />
     <Compile Include="DataAccess\IQuoteRepository.cs" />
     <Compile Include="DataAccess\QuoteRepository.cs" />
+    <Compile Include="DependencyInjection\ApiControllersInstaller.cs" />
     <Compile Include="DependencyInjection\RepositoryInstallers.cs" />
     <Compile Include="DependencyInjection\WindsorDependencyResolver.cs" />
     <Compile Include="DependencyInjection\WindsorDependencyScope.cs" />

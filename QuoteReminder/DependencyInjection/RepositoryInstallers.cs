@@ -14,9 +14,9 @@ namespace QuoteReminder.DependencyInjection
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IQuoteRepository>().ImplementedBy<QuoteRepository>());
-
-            container.Register(Component.For<QuoteController>());
+            container.Register(
+                Component.For<IQuoteRepository>().
+                ImplementedBy<QuoteRepository>().LifestylePerWebRequest());
         }
     }
 }

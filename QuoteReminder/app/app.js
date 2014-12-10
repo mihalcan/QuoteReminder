@@ -16,6 +16,12 @@ var ListCtrl = function ($scope, $location, Quote) {
         $scope.items = Quote.query({ q: $scope.query });
     };
 
+    var query = $location.search().q;
+    if (query != undefined)
+    {
+        $scope.query = query;
+    }
+
     $scope.reset();
 
     $scope.delete = function () {

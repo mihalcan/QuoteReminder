@@ -14,31 +14,32 @@ namespace QuoteReminder.DependencyInjection
 
         public WindsorDependencyResolver(IWindsorContainer container)
         {
-            if (container == null)
-            {
-                throw new ArgumentNullException("container");
-            }
-
             _container = container;
-        }
-        public object GetService(Type t)
-        {
-            return _container.Kernel.HasComponent(t) ? _container.Resolve(t) : null;
-        }
-
-        public IEnumerable<object> GetServices(Type t)
-        {
-            return _container.ResolveAll(t).Cast<object>().ToArray();
-        }
-
-        public void Dispose()
-        {
-
         }
 
         public IDependencyScope BeginScope()
         {
             return new WindsorDependencyScope(_container);
+        }
+
+        public object GetService(Type serviceType)
+        {
+            return _container.Kernel.HasComponent(serviceType) ? _container.Resolve(serviceType) : null;
+        }
+
+        public IEnumerable<object> GetServices(Type serviceType)
+        {
+            if (!_container.Kernel.HasComponent(serviceType))
+            {
+                return new object[0];
+            }
+
+            return _container.ResolveAll(serviceType).Cast<object>();
+        }
+
+        public void Dispose()
+        {
+            _container.Dispose();
         }
     }
 }
