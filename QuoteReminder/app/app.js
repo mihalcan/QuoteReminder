@@ -61,3 +61,4 @@ var EditCtrl = function ($scope, $routeParams, $location, Quote) {
         });
     };
 };
+

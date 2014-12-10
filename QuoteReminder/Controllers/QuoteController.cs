@@ -9,12 +9,20 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using QuoteReminder.Models;
+using QuoteReminder.DataAccess;
 
 namespace QuoteReminder.Controllers
 {
     public class QuoteController : ApiController
     {
         private QuoteReminderContext db = new QuoteReminderContext();
+
+        private IQuoteRepository repository;
+
+        public QuoteController (IQuoteRepository repository)
+	    {
+            this.repository = repository;
+	    }
 
         // GET api/Quote
         public IEnumerable<Quote> GetQuotes(string q = null, string sort = null, bool desc = false,
@@ -38,7 +46,7 @@ namespace QuoteReminder.Controllers
         // GET api/Quote/5
         public Quote GetQuote(int id)
         {
-            Quote quote = db.Quotes.Find(id);
+            Quote quote = this.repository.GetById(id);
             if (quote == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
@@ -77,19 +85,9 @@ namespace QuoteReminder.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (quote.Created.Year < 2000)
-                {
-                    quote.Created = DateTime.Now;
-                }
-                quote.LastRemind = quote.Created;
-                quote.NextRemind = quote.Created.AddDays(1);
+                this.repository.Add(quote);
 
-                db.Quotes.Add(quote);
-                db.SaveChanges();
-
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, quote);
-                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = quote.QuoteId }));
-                return response;
+                return this.CreateSuccessResponse(quote);
             }
             else
             {
@@ -100,32 +98,22 @@ namespace QuoteReminder.Controllers
         // DELETE api/Quote/5
         public HttpResponseMessage DeleteQuote(int id)
         {
-            Quote quote = db.Quotes.Find(id);
-            if (quote == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
-            }
-
-            db.Quotes.Remove(quote);
-
             try
             {
-                db.SaveChanges();
+                this.repository.Delete(id);
+            }
+            catch (ArgumentException)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
             catch (DbUpdateConcurrencyException)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, quote);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
-        }
-
+        
         private Quote UpdateDates(int id, Quote quote)
         {
             switch (quote.EditType)
@@ -157,6 +145,13 @@ namespace QuoteReminder.Controllers
             quote.NextRemind = quote.LastRemind.AddDays(1);
 
             return quote;
+        }
+
+        private HttpResponseMessage CreateSuccessResponse(Quote quote)
+        {
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, quote);
+            response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = quote.QuoteId }));
+            return response;
         }
     }
 }
