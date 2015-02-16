@@ -1,4 +1,4 @@
-﻿var QuoteApp = angular.module("QuoteApp", ["ngRoute", "ngResource"]).
+﻿var QuoteApp = angular.module("QuoteApp", ["ngRoute", "ngResource","angular-loading-bar"]).
     config(function ($routeProvider) {
         $routeProvider.
             when('/', { controller: ListCtrl, templateUrl: 'app/templates/list.html' }).
@@ -53,7 +53,7 @@ var ListCtrl = function ($scope, $location, Quote) {
 var CreateCtrl = function ($scope, $location, Quote) {
     $scope.save = function () {
         Quote.save($scope.item, function () {
-            $location.path('/');
+            $location.path('/?q=All');
         });
     };
 };
